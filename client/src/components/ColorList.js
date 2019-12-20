@@ -7,9 +7,15 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+  const [adding, setAdding] = useState(false);
+  const [newColor, setNewColor] = useState({
+    color: "",
+    code: {
+      hex: ""
+    }
+  });
 
   const editColor = color => {
     setEditing(true);
@@ -21,11 +27,9 @@ const ColorList = ({ colors, updateColors }) => {
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
-    console.log(colorToEdit);
     axiosWithAuth()
       .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
-        console.log(res);
         updateColors(
           colors.map(color => {
             if (color.id === colorToEdit.id) {
@@ -84,6 +88,7 @@ const ColorList = ({ colors, updateColors }) => {
           </li>
         ))}
       </ul>
+      <button onClick={() => setAdding(true)}>Add New Color</button>
       {editing && (
         <form onSubmit={saveEdit}>
           <legend>edit color</legend>
@@ -114,8 +119,32 @@ const ColorList = ({ colors, updateColors }) => {
           </div>
         </form>
       )}
+      {adding && (
+        <form>
+          Add Color
+          <label>
+            color name:
+            <input
+              onChange={e =>
+                setNewColor({ ...newColor, color: e.target.value })
+              }
+            />
+          </label>
+          <label>
+            hex code:
+            <input
+              onChange={e =>
+                setNewColor({ ...newColor, code: { hex: e.target.value } })
+              }
+            />
+          </label>
+          <div className="button-row">
+            <button type="submit">Add</button>
+            <button onClick={() => setAdding(false)}>Cancel</button>
+          </div>
+        </form>
+      )}
       <div className="spacer" />
-      {/* stretch - build another form here to add a color */}
     </div>
   );
 };
