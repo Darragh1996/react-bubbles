@@ -29,6 +29,17 @@ const ColorList = ({ colors, updateColors }) => {
       .post(`http://localhost:5000/api/colors`, newColor)
       .then(res => {
         console.log(res);
+        return res;
+      })
+      .then(response => {
+        axiosWithAuth()
+          .get("http://localhost:5000/api/colors")
+          .then(res => {
+            updateColors(res.data);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(err => {
         console.log(err);
