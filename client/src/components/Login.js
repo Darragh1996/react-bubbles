@@ -16,7 +16,7 @@ const Login = () => {
       .post("http://localhost:5000/api/login", details)
       .then(res => {
         console.log(res);
-        window.localStorage.setItem("token", res.data.payload);
+        localStorage.setItem("token", res.data.payload);
       })
       .catch(err => {
         console.log(err);
