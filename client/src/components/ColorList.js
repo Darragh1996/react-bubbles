@@ -20,7 +20,20 @@ const ColorList = ({ colors, updateColors }) => {
   const editColor = color => {
     setEditing(true);
     setColorToEdit(color);
+    console.log(color.id);
   };
+
+  function addColor(event) {
+    event.preventDefault();
+    axiosWithAuth()
+      .post(`http://localhost:5000/api/colors`, newColor)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   const saveEdit = e => {
     e.preventDefault();
@@ -120,7 +133,7 @@ const ColorList = ({ colors, updateColors }) => {
         </form>
       )}
       {adding && (
-        <form>
+        <form onSubmit={event => addColor(event)}>
           Add Color
           <label>
             color name:
