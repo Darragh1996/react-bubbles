@@ -35,6 +35,7 @@ const ColorList = ({ colors, updateColors }) => {
             }
           })
         );
+        setEditing(false);
       })
       .catch(err => {
         console.log(err);
@@ -52,7 +53,6 @@ const ColorList = ({ colors, updateColors }) => {
             return c.id !== color.id;
           })
         );
-        setEditing(false);
       })
       .catch(err => {
         console.log(err);
